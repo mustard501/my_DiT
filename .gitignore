@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+.python-version
+
+# Data, checkpoints, training artifacts
+data/
+runs/
+models/
+*.ckpt
+*.pt
+*.pth
+*.zip
+
+# Hugging Face / datasets cache
+.cache/
+hf_cache/
+
+# Logs / notebooks
+*.log
+.ipynb_checkpoints/
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

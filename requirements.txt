@@ -1,0 +1,27 @@
+# DiT from-scratch 复现 
+# CUDA 兼容性说明:
+#   - torch 通过 pip wheel 自带完整 CUDA 运行时, 不依赖系统 nvcc / CUDA Toolkit,
+#     只要求 NVIDIA 驱动支持 CUDA 12.0+ (Linux >= 525.60, Windows >= 527.41)。
+#     已验证可在 nvcc 12.0 / 12.1 / 12.4 的机器上运行。
+
+# torch/torchvision 锁定官方源 cu126 变体 (通过下方 extra-index-url 解析;
+--extra-index-url https://download.pytorch.org/whl/cu126
+torch==2.14.0+cu126
+torchvision==0.29.0+cu126
+
+# 数值计算与工具 (PyPI)
+numpy>=2.5.2
+scipy>=1.11.0
+tqdm>=4.70.0
+
+# 可视化: 采样结果、损失曲线
+matplotlib>=3.11.1
+
+# 训练监控 (tensorboard --logdir runs)
+tensorboard>=2.21.0
+
+# FID 评测 (可选, 跑通后再用于定量评估样本质量)
+pytorch-fid>=0.3.0
+
+# CelebA-HQ 自动下载 (Hugging Face Hub)
+datasets>=2.18.0
