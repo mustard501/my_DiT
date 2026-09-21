@@ -23,5 +23,5 @@ tensorboard>=2.21.0
 # FID 评测 (可选, 跑通后再用于定量评估样本质量)
 pytorch-fid>=0.3.0
 
-# CelebA-HQ 自动下载 (Hugging Face Hub)
-datasets>=2.18.0
+# 本地加载 HuggingFace 的 .safetensors（sd-vae-ft-ema 等）
+safetensors>=0.4.0
