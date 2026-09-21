@@ -412,10 +412,10 @@ if __name__ == "__main__":
     # training (paper: 400K steps, global batch 256, lr 1e-4, wd 0)
     p.add_argument("--max_steps", type=int, default=400_000)
     p.add_argument("--batch_size", type=int, default=32,
-                   help="micro-batch per forward (4090); paper global batch is 256")
-    p.add_argument("--global_batch_size", type=int, default=256,
+                   help="micro-batch per forward; paper global batch is 256")
+    p.add_argument("--global_batch_size", type=int, default=32,
                    help="optimizer step after global_batch_size/batch_size micro-batches")
-    p.add_argument("--lr", type=float, default=1e-4)
+    p.add_argument("--lr", type=float, default=1.25e-5)
     p.add_argument("--weight_decay", type=float, default=0.0)
     p.add_argument("--ema_decay", type=float, default=0.9999)
     p.add_argument("--resume", type=str, default=None)
