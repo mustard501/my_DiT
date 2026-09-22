@@ -1,0 +1,201 @@
+id	标签
+0
+African hunting dog
+1
+American Staffordshire terrier
+2
+American coot
+3
+American lobster
+4
+Chesapeake Bay retriever
+5
+Chihuahua
+6
+Doberman
+7
+Dutch oven
+8
+English foxhound
+9
+Gila monster
+10
+Great Dane
+11
+Mexican hairless
+12
+Rottweiler
+13
+Saluki
+14
+Shih-Tzu
+15
+Walker hound
+16
+ambulance
+17
+bannister
+18
+bassinet
+19
+boathouse
+20
+bonnet
+21
+borzoi
+22
+bottlecap
+23
+boxer
+24
+car wheel
+25
+carbonara
+26
+cauliflower
+27
+chime
+28
+chocolate sauce
+29
+cinema
+30
+cocktail shaker
+31
+computer keyboard
+32
+coyote
+33
+dung beetle
+34
+fiddler crab
+35
+football helmet
+36
+garden spider
+37
+garter snake
+38
+gasmask
+39
+gibbon
+40
+goose
+41
+green mamba
+42
+gyromitra
+43
+hard disc
+44
+hare
+45
+harmonica
+46
+head cabbage
+47
+hognose snake
+48
+honeycomb
+49
+iron
+50
+jean
+51
+komondor
+52
+kuvasz
+53
+lampshade
+54
+langur
+55
+laptop
+56
+leafhopper
+57
+little blue heron
+58
+lorikeet
+59
+meerkat
+60
+milk can
+61
+mixing bowl
+62
+modem
+63
+moped
+64
+mortarboard
+65
+mousetrap
+66
+obelisk
+67
+papillon
+68
+park bench
+69
+pedestal
+70
+pickup
+71
+pineapple
+72
+pirate
+73
+purse
+74
+red fox
+75
+reel
+76
+robin
+77
+rock crab
+78
+rocking chair
+79
+rotisserie
+80
+safety pin
+81
+sarong
+82
+ski mask
+83
+slide rule
+84
+standard poodle
+85
+stinkhorn
+86
+stretcher
+87
+tabby
+88
+theater curtain
+89
+throne
+90
+tile roof
+91
+toy terrier
+92
+tripod
+93
+tub
+94
+vacuum
+95
+vizsla
+96
+walking stick
+97
+wild boar
+98
+window screen
+99
+wing

@@ -16,6 +16,19 @@ from vae import decode_to_image, load_frozen_vae
 torch.backends.cuda.matmul.allow_tf32 = True
 torch.backends.cudnn.allow_tf32 = True
 
+# 训练预览 / --sample 用的类别编号（ImageFolder 按文件夹名排序后的 0..C-1）。
+# 取前 n_samples 个；不够则循环
+SAMPLE_CLASS_IDS = [0, 1, 2, 3, 4, 5, 6, 7]
+
+
+def sample_labels(n, num_classes, device):
+    ids = SAMPLE_CLASS_IDS or list(range(num_classes))
+    y = [ids[i % len(ids)] for i in range(n)]
+    bad = [i for i in y if i < 0 or i >= num_classes]
+    if bad:
+        raise ValueError(f"SAMPLE_CLASS_IDS out of range [0, {num_classes}): {bad}")
+    return torch.tensor(y, device=device, dtype=torch.long)
+
 
 class EMA:
     """Exponential moving average of model weights (paper: decay 0.9999)."""
@@ -237,7 +250,8 @@ def train(args):
 
     sample_noise = torch.randn(
         args.n_samples, args.in_ch, args.latent_size, args.latent_size, device=device)
-    sample_y = torch.arange(args.n_samples, device=device) % args.num_classes
+    sample_y = sample_labels(args.n_samples, args.num_classes, device)
+    print(f"preview classes: {sample_y.tolist()}")
 
     def quick_sample(tag):
         """Fixed latent noise + labels so samples_{step}.png is comparable across training."""
@@ -324,7 +338,8 @@ def sample(args):
     if args.class_label is not None:
         y = torch.full((args.n_samples,), args.class_label, device=device, dtype=torch.long)
     else:
-        y = torch.arange(args.n_samples, device=device) % num_classes
+        y = sample_labels(args.n_samples, num_classes, device)
+    print(f"sample classes: {y.tolist()}")
     z, snaps = diffusion_sample(
         diffusion, model, (args.n_samples, ca["in_ch"], z_size, z_size), device, y,
         args.cfg_scale, num_classes, sampler=args.sampler, steps=args.num_sampling_steps,
@@ -335,10 +350,13 @@ def sample(args):
     print(f"samples: {out}")
 
     if snaps:
-        recs = torch.cat([decode_to_image(vae, s) for s in snaps], dim=0)
+        # 每行一张图，列是时间：左噪声 → 右干净（nrow = 时间帧数）
+        decoded = torch.stack([decode_to_image(vae, s) for s in snaps], dim=1)
+        b, t = decoded.shape[:2]
         out_p = os.path.join(args.out, "progression.png")
-        save_image(recs, out_p, nrow=args.n_samples, value_range=(0, 1))
-        print(f"progression: {out_p} (rows: decoded x0_hat along sampler, noisy -> clean)")
+        save_image(decoded.reshape(b * t, *decoded.shape[2:]), out_p,
+                   nrow=t, value_range=(0, 1))
+        print(f"progression: {out_p} (rows=samples, cols=x0_hat, left=noisy → right=clean)")
 
 
 def eval_fid(args):
@@ -434,7 +452,7 @@ if __name__ == "__main__":
                    help="classifier-free guidance; 1 = off")
     p.add_argument("--class_label", type=int, default=None,
                    help="fixed ImageNet class for --sample (default: 0..n cycling)")
-    p.add_argument("--n_samples", type=int, default=16)
+    p.add_argument("--n_samples", type=int, default=8)
     p.add_argument("--progress_every", type=int, default=10,
                    help="step interval for progression.png (only with --sample)")
 
