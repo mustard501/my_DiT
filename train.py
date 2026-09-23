@@ -340,10 +340,16 @@ def sample(args):
     else:
         y = sample_labels(args.n_samples, num_classes, device)
     print(f"sample classes: {y.tolist()}")
+    x_T = None
+    if args.same_noise:
+        x_T = torch.randn(1, ca["in_ch"], z_size, z_size, device=device)
+        x_T = x_T.repeat(args.n_samples, 1, 1, 1)
+        print("sample noise: shared across windows")
     z, snaps = diffusion_sample(
         diffusion, model, (args.n_samples, ca["in_ch"], z_size, z_size), device, y,
         args.cfg_scale, num_classes, sampler=args.sampler, steps=args.num_sampling_steps,
-        spacing=args.ddim_spacing, eta=args.eta, progress_every=args.progress_every)
+        spacing=args.ddim_spacing, eta=args.eta, progress_every=args.progress_every,
+        x_T=x_T)
     imgs = decode_to_image(vae, z)
     out = os.path.join(args.out, "samples_final.png")
     save_image(imgs, out, nrow=4, value_range=(0, 1))
@@ -453,6 +459,8 @@ if __name__ == "__main__":
     p.add_argument("--class_label", type=int, default=None,
                    help="fixed ImageNet class for --sample (default: 0..n cycling)")
     p.add_argument("--n_samples", type=int, default=8)
+    p.add_argument("--same_noise", action="store_true",
+                   help="--sample: all windows share one x_T (compare classes)")
     p.add_argument("--progress_every", type=int, default=10,
                    help="step interval for progression.png (only with --sample)")
 
